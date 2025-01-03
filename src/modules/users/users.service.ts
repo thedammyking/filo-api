@@ -5,6 +5,8 @@ import { pick } from 'lodash';
 
 import { prefixText } from '@/lib/utils';
 
+import type { User } from './user.type';
+
 @Injectable()
 export class UsersService {
   private management: ManagementClient;
@@ -18,7 +20,7 @@ export class UsersService {
     });
   }
 
-  async getUser(id: string) {
+  async getUser(id: string): Promise<User> {
     try {
       const auth0User = await this.management.users.get({ id });
       const user = {

@@ -1,11 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { User } from '@/commons/decorators/user.decorator';
+import { CurrentUser } from '@/commons/decorators/current-user.decorator';
+import type { User } from '@/modules/users/user.type';
 
 @Controller('auth')
 export class AuthController {
   @Get('/me')
-  async me(@User() user: any) {
+  async me(@CurrentUser() user: User) {
     return user;
   }
 }
