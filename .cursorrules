@@ -20,8 +20,11 @@ For this project, follow these specific rules:
 
 - Example module structure:
   - **Auth Module**:
-    - Use JWT for user authentication.
+    - Use Auth0 for user authentication.
     - Implement guards for protected routes.
+  - **Uploads Module**:
+    - Manage uploads and their statuses.
+    - Support streaming directly to cloud storage providers using readable streams.
   - **Task Module**:
     - Manage tasks for file uploads, including status tracking.
     - Support streaming directly to cloud storage providers using readable streams.
