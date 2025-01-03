@@ -1,10 +1,11 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_PIPE } from '@nestjs/core';
+import { APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthModule } from '@/modules/auth/auth.module';
+import { JwtAuthGuard } from '@/modules/auth/jwt-auth.guard';
+import { UsersModule } from '@/modules/users/users.module';
 
 @Module({
   imports: [
@@ -21,9 +22,16 @@ import { AppService } from './app.service';
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE')
       })
-    })
+    }),
+    AuthModule,
+    UsersModule
   ],
-  controllers: [AppController],
-  providers: [AppService, { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true }) }]
+  providers: [
+    { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true }) },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard
+    }
+  ]
 })
 export class AppModule {}
